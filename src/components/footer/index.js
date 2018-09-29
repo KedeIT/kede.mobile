@@ -39,7 +39,7 @@ class Footer extends PureComponent {
         return (
             <FooterWrapper>
                 <ItemContainer>
-                    {/* <Item>
+                    <Item>
                         <ItemLink className="link_home">首页</ItemLink>
                     </Item>
                     <Item>
@@ -51,14 +51,14 @@ class Footer extends PureComponent {
                     </Item>
                     <Item>
                         <ItemLink className="link_mine">我的</ItemLink>
-                    </Item> */}
-                    {this.state.menuList.map(ent=>{
+                    </Item>
+                    {/* {this.state.menuList.map(ent=>{
                         return (
                             <Item>
                             <ItemLink to={ent.link} className={ent.className}>{ent.name}</ItemLink>
                         </Item>
                         )
-                    })}
+                    })} */}
                 </ItemContainer>
             </FooterWrapper>
 

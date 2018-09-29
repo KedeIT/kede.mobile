@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router-dom';
 class Detail extends PureComponent {
     render() {
         return (
