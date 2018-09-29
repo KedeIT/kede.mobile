@@ -33,7 +33,7 @@ export const HeaderLink = styled.a`
 `
 
 export const CategoryIcon = styled.img.attrs({
-    src:"https://pic.keede.com//app/images/Community/Index/classmenu.png"
+    src: props=>props.iconUrl
 })`
     border: none;
     vertical-align: middle;
@@ -63,6 +63,7 @@ export const SearchBar = styled.div`
     position: relative;
     border-radius: 15px;
     &.head_icon {
+        /* ${props=>props.iconUrl} */
     background-image: url(${headIcon});
 }
 `

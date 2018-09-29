@@ -24,7 +24,7 @@ class Footer extends PureComponent {
             {
                 index:2,
                 name:"购物车",
-                link:"/",
+                link:"/cart",
                 className:"link_cart"
             },
             {
@@ -55,7 +55,7 @@ class Footer extends PureComponent {
                     {this.state.menuList.map(ent=>{
                         return (
                             <Item>
-                            <ItemLink className={ent.className}>{ent.name}</ItemLink>
+                            <ItemLink to={ent.link} className={ent.className}>{ent.name}</ItemLink>
                         </Item>
                         )
                     })}

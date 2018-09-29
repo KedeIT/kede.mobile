@@ -14,7 +14,7 @@ class Header extends PureComponent {
             <HeaderWrapper>
                 <Mask></Mask>
                 <HeaderLink>
-                    <CategoryIcon></CategoryIcon>
+                    <CategoryIcon iconUrl="https://pic.keede.com//app/images/Community/Index/classmenu.png"></CategoryIcon>
                 </HeaderLink>
                 <SearchBar className="head_icon">
                     <SearchInput></SearchInput>

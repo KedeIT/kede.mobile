@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import footerIcon from '../../assets/img/footer_nav.png'
+import {Link} from 'react-router-dom';
 export const FooterWrapper = styled.div`
     background: #ffffff;
     border-top: 1px solid #ccc;
@@ -15,7 +16,7 @@ export const FooterWrapper = styled.div`
     left: 50%;
 `
 export const ItemContainer = styled.ul`
-    margin: 0;
+    margin: 0; 
     padding: 0;
     border: 0;
     outline: 0;
@@ -38,7 +39,7 @@ export const Item = styled.li`
     }
 `
 
-export const ItemLink = styled.a`
+export const ItemLink = styled(Link)`
     display: block;
     width: 100%;
     height: 100%;
