@@ -17,7 +17,6 @@ const getWindowScrollFromSession = (path) => {
 
 export const setWindowScrollToSession = (path) => {
     let scrollInfo = getWindowScroll();
-    console.log(scrollInfo);
     sessionStorage.setItem(`scroll-${path}`, JSON.stringify(scrollInfo));
 }
 

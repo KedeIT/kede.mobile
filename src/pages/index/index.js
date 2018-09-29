@@ -21,7 +21,6 @@ class Index extends PureComponent{
         });
     }
     componentWillUnmount(){
-        console.log(this.props.location)
         setWindowScrollToSession(this.props.location.pathname);
     }
 }
