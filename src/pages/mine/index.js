@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import List from './components/List';
-
+import FancyBox from '../../components/fancyBox';
 import { ThemeButtonContext, style } from './context/ThemeButtonContext';
 class Mine extends Component {
 
@@ -8,17 +8,21 @@ class Mine extends Component {
         super(props);
         this.state = {
             currentColor: style.colorRed,
-            toggleColor:this.toggleColor
+            toggleColor: this.toggleColor
         }
     }
 
     render() {
+        let themeButton = (
+            <ThemeButtonContext.Provider value={this.state} >
+                <List></List>
+            </ThemeButtonContext.Provider>
+        );
         return (
             <div style={{ height: "600px", margin: "50% auto" }}>
                 Mine page
-                <ThemeButtonContext.Provider value={this.state} >
-                    <List></List>
-                </ThemeButtonContext.Provider>
+
+                <FancyBox topContent={themeButton} bottomContent={<span>HAHA BOTTOM CONTENT HERE</span>}></FancyBox>
             </div>);
     }
 
