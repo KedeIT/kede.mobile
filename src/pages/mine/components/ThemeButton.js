@@ -5,15 +5,15 @@ class ThemeButton extends Component {
     render() {
         return (
             <ThemeButtonContext.Consumer>
-                {item => (
-                    <div style={{color:item}}>当前按钮的颜色  ：
-                            <span>{item}</span>
-                    </div>
-                )
+                {
+                    importedValue => (
+                        <div style={{ color: importedValue }} {...this.props}>当前按钮的颜色  ：
+                                    <span>{importedValue}</span>
+                        </div>
+                    )
                 }
 
             </ThemeButtonContext.Consumer>
-
         );
     }
 }

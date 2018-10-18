@@ -20,7 +20,7 @@ class Mine extends Component {
                 <ThemeButtonContext.Provider value={this.state.currentColor}>
                     <List></List>
                 </ThemeButtonContext.Provider>
-                <button onClick={this.toggleColor2()}>父级Mine更改按钮颜色,当前为{this.state.currentColor}</button>
+                <button onClick={ this.toggleColor} my="自定义的">父级Mine更改按钮颜色,当前为{this.state.currentColor}</button>
             </div>);
     }
 
@@ -35,7 +35,8 @@ class Mine extends Component {
             });
     }
 
-    toggleColor2() {
+    toggleColor2(a,b,e) {
+
         if (this.state.currentColor == style.colorRed)
             this.setState({
                 currentColor: style.colorYellow
