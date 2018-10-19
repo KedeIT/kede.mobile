@@ -614,7 +614,10 @@ export const autoWindowScroll = (path) => {
 ```
 
 
+# 组件之间的数据传递：
+一般情况下，组件之间的数据传递是通过 props 进行，那么如果现在有子组件A被嵌套很深，但该子组件A的一些父组件可能并不会用到子组件A所需要的一些属性，但是因为嵌套了子组件A，他们不得不对外索要这些子组件所需要的属性，如下：
 
+//////////////////////////////////////////////
 
 
 # redux 
@@ -622,18 +625,19 @@ export const autoWindowScroll = (path) => {
 ## 为什么要用redux？
 react的数据传递是单向的：
 
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180925105021714-34921900.gif)
+![](http://pic.zhuliang.ltd/14a288ea-7104-4afb-b3dd-53832a3d753f.gif)
+
 >通过props属性进行数据的传递
 
 
 非父子组件之间共享 state
 
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180925105319011-1739129400.gif)
+![](http://pic.zhuliang.ltd//61f0b857-ff20-447e-a854-b4047f3c6c20.gif)
 
 
 使用redux之后：数据传递不再是单向、线性的，所有组件的数据都会放到 Store 中，直接下放到对应需要更新的组件中。
 
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180925105428122-702281697.gif)
+![](http://pic.zhuliang.ltd//fa9a3b6a-31be-4011-a87a-fb11a19b979f.gif)
 
 ## redux 介绍：
 redux= reducer + flux
