@@ -1,5 +1,3 @@
-[toc]
-
 # 使用 React 重写 kede mobile 培训课件
 # 项目初始化：
 ## 使用 create-react-app 创建项目
