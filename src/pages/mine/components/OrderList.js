@@ -9,7 +9,7 @@ export default (props) => {
         <OrderListWrapper>
             <OrderTitle>订单信息：</OrderTitle>
             {props.orderList.map((item, index) => {
-                return <OrderItem key={index} item={item} itemColor={props.itemColor}></OrderItem>
+                return <OrderItem key={index} item={item} ></OrderItem>
             })}
         </OrderListWrapper>
     )

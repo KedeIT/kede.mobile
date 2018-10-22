@@ -1,11 +1,25 @@
 import React from 'react';
+import OrderItemContext from '../../../context/orderItemContext';
 import {
     OrderItem
 } from '../style';
-export default (props)=>{
+export default (props) => {
     return (
-        <OrderItem color={props.itemColor}>
-            {props.item.title}
-        </OrderItem>
+        <OrderItemContext.Consumer>
+            {
+                importedValue => {
+                    return (
+                        <OrderItem color={importedValue}>
+                            {props.item.title}
+                        </OrderItem>
+                    )
+                }
+            }
+
+
+
+        </OrderItemContext.Consumer>
     )
 }
+
+
