@@ -18,7 +18,7 @@ create-react-app kede.mobile
 在src文件夹中创建 components 文件夹，所有的组件均建立在该文件夹下
 
 # styled-components：react中的CSS最佳实践
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180928102948854-405744301.png)
+![](http://pic.zhuliang.ltd//ac66c00d-a6df-4642-a9c6-0de546d388c9.png)
 >styled-components：
 >- 核心理念：移除样式与组件之间的对应关系
 >- css in js，写的是真CSS，非类似于CSS的JS对象
@@ -331,21 +331,21 @@ export default Footer;
 
 # 使用iconfont.cn
 1. 从iconfont.cn中下载需要的图标到本地（红框中的为项目中需要使用到的文件）
--  ![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180928143924004-1701288675.png)
+-  ![](http://pic.zhuliang.ltd//1101407-20180928143924004-1701288675.png)
 2. 嵌入react项目中
-- ![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180928155024427-378426499.png)
+- ![](http://pic.zhuliang.ltd//1101407-20180928155024427-378426499.png)
 
 3. 修改文件后缀： iconfont.css -> iconfont.js 
 4. 修改iconfont.js中内容，使用styled-components
 - 使用unicode
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180928155706017-714559447.png)
+![](http://pic.zhuliang.ltd//1101407-20180928155706017-714559447.png)
 组件中使用：
 ```javascript
 导入：import  from './assets/icon/iconfont.js'
 使用：<i class="iconfont">& #xe67c;</i>  //中间空格去掉
 ```
 - 使用fontClass
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180928175857212-868804250.png)
+![](http://pic.zhuliang.ltd//1101407-20180928175857212-868804250.png)
 组件中司用：
 ```javascript
 导入：import{CartIcon} from './assets/icon/iconfont.js'
@@ -564,6 +564,7 @@ export default GoToTop;
 - 通过 sessionStorage 来记录位置
 - 无法通过组件的形式来进行实现（∵部分页面是后渲染---即页面加载完成之后再去请求获取模板数据进行渲染）
 /common/utility.js
+
 ```javascript
 const getWindowScroll = () => {
     let supportPageOffset = window.pageXOffset !== undefined;
@@ -594,7 +595,9 @@ export const autoWindowScroll = (path) => {
 }
 
 ```
+
 页面使用：
+
 >需要注意的是，这里需要使用setState异步函数形式下的回调函数
 ```javascript
     componentDidMount(){
@@ -646,7 +649,7 @@ redux= reducer + flux
 redux是一个数据层框架。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
 
 ## redux 工作流：
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180925141104597-2088633436.png)
+![](http://pic.zhuliang.ltd//1101407-20180925141104597-2088633436.png)
 
 ## 使用 react-redux来简化
 项目地址：https://github.com/reduxjs/react-redux
@@ -657,7 +660,7 @@ npm install --save react-redux
 ```
 2. 在项目根目录下创建store文件夹，并在其内创建reducer.js，index.jS
    
-![](https://img2018.cnblogs.com/blog/1101407/201809/1101407-20180926160444487-702449478.png)
+![](http://pic.zhuliang.ltd//1101407-20180926160444487-702449478.png)
 
 /store/reducer.js
 ```javascript
