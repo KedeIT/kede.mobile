@@ -30,7 +30,11 @@ class Mine extends Component {
             <div style={{ height: "600px", margin: "50% auto" }}>
                 <div>Mine page</div>
 
-                <OrderItemContext.Provider value={this.state.currentColor}>
+                <OrderItemContext.Provider 
+                value={{
+                    currentColor:this.state.currentColor,
+                    toggleColor:this.toggleColor
+                    }}>
                     <OrderList orderList={this.state.orderList} ></OrderList>
                 </OrderItemContext.Provider>
                 <button onClick={() => this.toggleColor()}>toggleColor</button>

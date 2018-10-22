@@ -9,15 +9,12 @@ export default (props) => {
             {
                 importedValue => {
                     return (
-                        <OrderItem color={importedValue}>
+                        <OrderItem color={importedValue.currentColor} onClick={()=>importedValue.toggleColor()}>
                             {props.item.title}
                         </OrderItem>
                     )
                 }
             }
-
-
-
         </OrderItemContext.Consumer>
     )
 }
