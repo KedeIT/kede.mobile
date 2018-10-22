@@ -18,7 +18,7 @@ create-react-app kede.mobile
 在src文件夹中创建 components 文件夹，所有的组件均建立在该文件夹下
 
 # styled-components：react中的CSS最佳实践
-![](http://pic.zhuliang.ltd//ac66c00d-a6df-4642-a9c6-0de546d388c9.png)
+![](http://pic.zhuliang.ltd/ac66c00d-a6df-4642-a9c6-0de546d388c9.png)
 >styled-components：
 >- 核心理念：移除样式与组件之间的对应关系
 >- css in js，写的是真CSS，非类似于CSS的JS对象
@@ -331,21 +331,21 @@ export default Footer;
 
 # 使用iconfont.cn
 1. 从iconfont.cn中下载需要的图标到本地（红框中的为项目中需要使用到的文件）
--  ![](http://pic.zhuliang.ltd//1101407-20180928143924004-1701288675.png)
+-  ![](http://pic.zhuliang.ltd/1101407-20180928143924004-1701288675.png)
 2. 嵌入react项目中
-- ![](http://pic.zhuliang.ltd//1101407-20180928155024427-378426499.png)
+- ![](http://pic.zhuliang.ltd/1101407-20180928155024427-378426499.png)
 
 3. 修改文件后缀： iconfont.css -> iconfont.js 
 4. 修改iconfont.js中内容，使用styled-components
 - 使用unicode
-![](http://pic.zhuliang.ltd//1101407-20180928155706017-714559447.png)
+![](http://pic.zhuliang.ltd/1101407-20180928155706017-714559447.png)
 组件中使用：
 ```javascript
 导入：import  from './assets/icon/iconfont.js'
 使用：<i class="iconfont">& #xe67c;</i>  //中间空格去掉
 ```
 - 使用fontClass
-![](http://pic.zhuliang.ltd//1101407-20180928175857212-868804250.png)
+![](http://pic.zhuliang.ltd/1101407-20180928175857212-868804250.png)
 组件中司用：
 ```javascript
 导入：import{CartIcon} from './assets/icon/iconfont.js'
@@ -624,6 +624,185 @@ export const autoWindowScroll = (path) => {
 
 那么有没有什么办法可以简化这个操作？通过：context。
 
+举例：有如下文件结构：
+
+![b5f84f92-2e48-450c-aed8-263552947a12.png](http://pic.zhuliang.ltd/b5f84f92-2e48-450c-aed8-263552947a12.png)
+
+需要通过index.js中的按钮来控制OrderItem.js中的文本颜色：引用上：index.js中嵌套OrderList.js，OrderList.js中嵌套OrderItem.js，在正常单项数据流的情况下，虽然最终只是OrderItem用到了由index.js传递的属性（itemColor），但因为index.js并非直接引用 OrderItem.js，所以作为中间者的OrderList.js不得不对index.js提供 props.itemColor，从而再将该值传递给OrderItem.js中的props.itemColor。代码如下：
+
+index.js
+```javascript
+	import OrderList from './components/OrderList';
+    render() {
+        return (
+            <div style={{ height: "600px", margin: "50% auto" }}>
+                <div>Mine page</div>
+                <OrderList 
+                    orderList={this.state.orderList} 
+                    itemColor={this.state.currentColor}>
+                </OrderList>
+                <button onClick={() => this.toggleColor()}>toggleColor</button>
+            </div>);
+    }
+```
+
+orderList.js
+```javascript
+	import OrderItem from './OrderItem';
+	export default (props) => {
+		return (
+			<OrderListWrapper>
+				<OrderTitle>订单信息：</OrderTitle>
+				{props.orderList.map((item, index) => {
+                    return (<OrderItem 
+                            key={index} 
+                            item={item} 
+                            itemColor={props.itemColor}>
+                        </OrderItem>)
+				})}
+			</OrderListWrapper>
+		)
+	}
+```
+
+orderItem.js
+```javascript
+	export default (props)=>{
+    return (
+			<OrderItem color={props.itemColor}>
+				{props.item.title}
+			</OrderItem>
+		)
+	}
+```
+
+使用react的context来改写上面的例子：
+
+在src目录下增加context文件夹：
+
+![46fd1f50-b17c-47ac-aa45-773e4261b926.png](http://pic.zhuliang.ltd/46fd1f50-b17c-47ac-aa45-773e4261b926.png)
+
+context/orderItemContext.js
+```javascript
+import React from 'react';
+
+export const style = {
+    colorRed: "red",
+    colorBlue: "blue"
+}
+
+export default React.createContext(style.colorRed);
+```
+
+pages/mine/index.js
+```javascript
+import React, { Component } from 'react'
+import OrderList from './components/OrderList';
+
+import OrderItemContext, { style } from '../../context/orderItemContext';
+class Mine extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderList: [
+                {
+                    title: "博士伦隐形眼镜",
+                    price: 23
+                },
+                {
+                    title: "海昌隐形眼镜",
+                    price: 33
+                },
+                {
+                    title: "依视路镜片",
+                    price: 43
+                }
+            ],
+            currentColor: style.colorRed
+        }
+    }
+
+    render() {
+        return (
+            <div style={{ height: "600px", margin: "50% auto" }}>
+                <div>Mine page</div>
+
+                <OrderItemContext.Provider value={this.state.currentColor}>
+                    <OrderList orderList={this.state.orderList} ></OrderList>
+                </OrderItemContext.Provider>
+                <button onClick={() => this.toggleColor()}>toggleColor</button>
+            </div>);
+    }
+
+    toggleColor = () => {
+        if (this.state.currentColor === style.colorRed) {
+            this.setState({
+                currentColor: style.colorBlue
+            });
+        } else {
+            this.setState(() => ({
+                currentColor: style.colorRed
+            }));
+        }
+    }
+
+}
+
+export default Mine;
+```
+
+pages/mine/components/OrderList.js
+```javascript
+import React from 'react';
+import {
+    OrderListWrapper,
+    OrderTitle
+} from '../style';
+import OrderItem from './OrderItem';
+export default (props) => {
+    return (
+        <OrderListWrapper>
+            <OrderTitle>订单信息：</OrderTitle>
+            {props.orderList.map((item, index) => {
+                return <OrderItem key={index} item={item} ></OrderItem>
+            })}
+        </OrderListWrapper>
+    )
+}
+```
+
+pages/mine/components/OrderItem.js
+```javascript
+import React from 'react';
+import OrderItemContext from '../../../context/orderItemContext';
+import {
+    OrderItem
+} from '../style';
+export default (props) => {
+    return (
+        <OrderItemContext.Consumer>
+            {
+                importedValue => {
+                    return (
+                        <OrderItem color={importedValue}>
+                            {props.item.title}
+                        </OrderItem>
+                    )
+                }
+            }
+        </OrderItemContext.Consumer>
+    )
+}
+```
+
+- 通过React的Context，OrderItem.js中原先用到的props.currentColor，直接通过OrderItemContext.Consumer来获取。而数据则直接由index.js中的OrderItemContext.Provider来提供。原先作为中间者的OrderList.js则不再无谓传输props.itemColor
+- 关于React的上下文：
+    - 创建上下文：let MyContext = React.createContext([defaultValue])
+        - 它有一个默认值，关于这个默认值，仅在Consumer往上查找，找不到Provider的时候才会触发（而非Provider组件的value属性为null/undefined时触发）
+    - 提供数据：通过使用MyContext.Provider来限定上下文的范围，通过 value属性来传递值。
+    - 获取/使用苏剧：通过使用MyContext.Consumer来限定上下文使用的范围，在写法上需要注意下，children部分以代码段开始。
+    - 更多关于上下文见此：https://reactjs.org/docs/context.html
 
 # redux 
 
@@ -637,19 +816,19 @@ react的数据传递是单向的：
 
 非父子组件之间共享 state
 
-![](http://pic.zhuliang.ltd//61f0b857-ff20-447e-a854-b4047f3c6c20.gif)
+![](http://pic.zhuliang.ltd/61f0b857-ff20-447e-a854-b4047f3c6c20.gif)
 
 
 使用redux之后：数据传递不再是单向、线性的，所有组件的数据都会放到 Store 中，直接下放到对应需要更新的组件中。
 
-![](http://pic.zhuliang.ltd//fa9a3b6a-31be-4011-a87a-fb11a19b979f.gif)
+![](http://pic.zhuliang.ltd/fa9a3b6a-31be-4011-a87a-fb11a19b979f.gif)
 
 ## redux 介绍：
 redux= reducer + flux
 redux是一个数据层框架。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
 
 ## redux 工作流：
-![](http://pic.zhuliang.ltd//1101407-20180925141104597-2088633436.png)
+![](http://pic.zhuliang.ltd/1101407-20180925141104597-2088633436.png)
 
 ## 使用 react-redux来简化
 项目地址：https://github.com/reduxjs/react-redux
@@ -660,7 +839,7 @@ npm install --save react-redux
 ```
 2. 在项目根目录下创建store文件夹，并在其内创建reducer.js，index.jS
    
-![](http://pic.zhuliang.ltd//1101407-20180926160444487-702449478.png)
+![](http://pic.zhuliang.ltd/1101407-20180926160444487-702449478.png)
 
 /store/reducer.js
 ```javascript
