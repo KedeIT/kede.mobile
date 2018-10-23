@@ -676,7 +676,7 @@ orderItem.js
 	}
 ```
 
-使用react的context来改写上面的例子：
+## 使用react的context来改写上面的例子：
 
 在src目录下增加context文件夹：
 
@@ -804,6 +804,177 @@ export default (props) => {
     - 获取/使用苏剧：通过使用MyContext.Consumer来限定上下文使用的范围，在写法上需要注意下，children部分以代码段开始。
     - 更多关于上下文见此：https://reactjs.org/docs/context.html
 
+## 使用 react-redux 来传递数据
+### 使用步骤：
+1. 安装
+    ```shell
+    npm install --save react-redux
+
+    同时也需要安装 redux 模块：
+    npm install --save redux
+    ```
+2. 在项目根目录下创建store文件夹，并在其内创建reducer.js，index.jS
+   
+    ![](http://pic.zhuliang.ltd/1101407-20180926160444487-702449478.png)
+
+    /store/reducer.js
+    ```javascript
+    const defaultState = {
+        ...
+    }
+
+    export default (state = defaultState, action) => {
+        switch (action.type) {
+            ...
+            default:
+                return state;
+        }
+    }
+    ```
+
+    /store/index.js
+    ```javascript
+    import { createStore } from 'redux';
+    import reducer from './reducer';
+
+    const store = createStore(reducer)
+
+    export default store;
+    ```
+
+3. 在入口文件中引入 Provider组件，作为顶层App的分发点，在相关的页面组件中使用connect进行组件跟redux的store进行连接。
+    /index.js
+    ```javascript
+    import { Provider } from 'react-redux';
+    import store from './store';
+    const container = (
+        <Provider store={store}>
+            <Wrapper>
+                <App />
+            </Wrapper>
+        </Provider>
+    )
+    ReactDOM.render(container, document.getElementById('root'));
+    ```
+
+4. components/自定义组件/index.js
+    ```javascript
+    import {connect} from 'react-redux';
+    ...
+    class Header extends Component {
+        render() {
+            ...
+        }
+    }
+    ...
+    export default connect(null,null)(Header);
+    ```
+
+### 例子：使用 react-redux 实现点击按钮时互换上方title和content的文字颜色：
+![9b306fb8-e888-4d8f-a4f0-1524d83bac00.gif](http://pic.zhuliang.ltd/9b306fb8-e888-4d8f-a4f0-1524d83bac00.gif)
+
+/store/reducer.js
+```javascript
+const defaultState = {
+    title: {
+        text: "here is duwu title",
+        color: "red"
+    },
+    content: {
+        text: "here is duwu content",
+        color: "blue"
+    }
+}
+
+export default (state = defaultState, action) => {
+    switch (action.type) {
+        case "reverseColor":
+            {
+                let currentTitle = state.title;
+                let currentContent = state.content;
+                return {
+                    title: {
+                        ...currentTitle,
+                        color: currentContent.color
+                    },
+                    content: {
+                        ...currentContent,
+                        color: currentTitle.color
+                    }
+                }
+
+            }
+        default:
+            return state;
+    }
+}
+```
+
+/store/index.js
+```javascript
+import { createStore } from 'redux';
+import reducer from './reducer';
+
+const store = createStore(reducer)
+
+export default store;
+```
+
+/pages/duwu/index.js
+```javascript
+import React, { PureComponent } from 'react'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+class Duwu extends PureComponent {
+    render() {
+        const { title, content, reverseColor } = this.props;
+        return (
+            <div style={{ height: "600px", margin: "50% auto" }}>
+                Duwu page
+                <Link to="/cart">跳转到购物车</Link>
+                <br></br>
+                <br></br>
+                <br></br>
+                <div style={{ color: title.color, }}>{title.text}</div>
+                <div style={{ color: content.color }}>{content.text}</div>
+                <button onClick={()=>reverseColor()}>反转颜色</button>
+            </div>)
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        title: state.title,
+        content: state.content
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        reverseColor() {
+            console.log(111)
+            let action = {
+                type: "reverseColor",
+            }
+            dispatch(action);
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Duwu);
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -838,7 +1009,9 @@ redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更�
 ## 使用 react-redux来简化
 项目地址：https://github.com/reduxjs/react-redux
 
->react-redux 是一个模块（或者说是一个库：一个将 redux 模式跟 react.js相结合的一个库）（也可以认为是 redux 在 react.js 中的提现）
+>react-redux 是一个模块（或者说是一个库：一个将 redux 模式跟 react.js相结合的一个库）（也可以认为是 redux 在 react.js 中的体现）
+
+
 ### 使用步骤：
 1. 安装
 ```shell

@@ -1,18 +1,20 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 class Duwu extends PureComponent {
-    state = {
-        title: {
-            text: "here is duwu title",
-            color: "red"
-        },
-        content: {
-            text: "here is duwu content",
-            color: "blue"
-        }
-    }
+    // state = {
+    //     title: {
+    //         text: "here is duwu title",
+    //         color: "red"
+    //     },
+    //     content: {
+    //         text: "here is duwu content",
+    //         color: "blue"
+    //     }
+    // }
 
     render() {
+        const { title, content, reverseColor } = this.props;
         return (
             <div style={{ height: "600px", margin: "50% auto" }}>
                 Duwu page
@@ -20,28 +22,47 @@ class Duwu extends PureComponent {
                 <br></br>
                 <br></br>
                 <br></br>
-                <div style={{ color: this.state.title.color, }}>{this.state.title.text}</div>
-                <div style={{ color: this.state.content.color }}>{this.state.content.text}</div>
-                <button onClick={this.reverseColor}>反转颜色</button>
+                <div style={{ color: title.color, }}>{title.text}</div>
+                <div style={{ color: content.color }}>{content.text}</div>
+                <button onClick={()=>reverseColor()}>反转颜色</button>
             </div>)
     }
 
-    reverseColor = () => {
-        let currentTitle = this.state.title;
-        let currentContent = this.state.content;
-        this.setState(() => {
-            return {
-                title: {
-                    ...currentTitle,
-                    color: currentContent.color
-                },
-                content: {
-                    ...currentContent,
-                    color: currentTitle.color
-                }
-            }
-        })
+    // reverseColor = () => {
+    //     let currentTitle = this.state.title;
+    //     let currentContent = this.state.content;
+    //     this.setState(() => {
+    //         return {
+    //             title: {
+    //                 ...currentTitle,
+    //                 color: currentContent.color
+    //             },
+    //             content: {
+    //                 ...currentContent,
+    //                 color: currentTitle.color
+    //             }
+    //         }
+    //     })
+    // }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        title: state.title,
+        content: state.content
     }
 }
 
-export default Duwu;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        reverseColor() {
+            console.log(111)
+            let action = {
+                type: "reverseColor",
+            }
+            dispatch(action);
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Duwu);
