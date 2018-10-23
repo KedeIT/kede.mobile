@@ -804,6 +804,10 @@ export default (props) => {
     - 获取/使用苏剧：通过使用MyContext.Consumer来限定上下文使用的范围，在写法上需要注意下，children部分以代码段开始。
     - 更多关于上下文见此：https://reactjs.org/docs/context.html
 
+
+
+
+
 # redux 
 
 ## 为什么要用redux？
@@ -825,13 +829,16 @@ react的数据传递是单向的：
 
 ## redux 介绍：
 redux= reducer + flux
-redux是一个数据层框架。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
+
+redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更为妥当)。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
 
 ## redux 工作流：
 ![](http://pic.zhuliang.ltd/1101407-20180925141104597-2088633436.png)
 
 ## 使用 react-redux来简化
 项目地址：https://github.com/reduxjs/react-redux
+
+>react-redux 是一个模块（或者说是一个库：一个将 redux 模式跟 react.js相结合的一个库）（也可以认为是 redux 在 react.js 中的提现）
 ### 使用步骤：
 1. 安装
 ```shell
