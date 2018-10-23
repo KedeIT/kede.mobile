@@ -1065,3 +1065,18 @@ redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更�
     }
     ```
 
+## 进一步抽离store文件夹到每一个独立的pages页面中
+
+## 使用 immutable.js
+为什么要用immutable.js？
+- 在reducer.js中，无法对state直接做修改，只能返回一个新的对象用来更新state，如果是基于原始state的修改，那么只能对他进行深拷贝后进行修改，再进行返回。
+- 通过使用 immutable.js，就可以省略深拷贝这一步，因为任何对于 immutable对象的修改，最终都会返回一个新的immutable对象。
+### 使用 immutable
+安装：
+```javascript
+
+```
+
+
+
+## chrome插件：redux的安装和配置及使用
