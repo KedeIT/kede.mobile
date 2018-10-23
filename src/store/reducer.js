@@ -1,3 +1,4 @@
+import {REVERSE_COLOR} from './actionTypes';
 const defaultState = {
     title: {
         text: "here is duwu title",
@@ -11,7 +12,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
     switch (action.type) {
-        case "reverseColor":
+        case REVERSE_COLOR:
             {
                 let currentTitle = state.title;
                 let currentContent = state.content;

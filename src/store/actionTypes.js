@@ -1,0 +1,1 @@
+export const REVERSE_COLOR = "DUWU/REVERSE_COLOR"

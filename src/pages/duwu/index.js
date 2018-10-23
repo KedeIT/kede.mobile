@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {GetReverseColorAction} from '../../store/actionCreators';
 class Duwu extends PureComponent {
     // state = {
     //     title: {
@@ -56,10 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         reverseColor() {
-            console.log(111)
-            let action = {
-                type: "reverseColor",
-            }
+            let action = GetReverseColorAction();
+            console.log(action);
             dispatch(action);
         }
     }

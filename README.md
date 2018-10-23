@@ -965,20 +965,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Duwu);
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # redux 
 
 ## 为什么要用redux？
@@ -998,7 +984,7 @@ react的数据传递是单向的：
 
 ![](http://pic.zhuliang.ltd/fa9a3b6a-31be-4011-a87a-fb11a19b979f.gif)
 
-## redux 介绍：
+## redux 简介：
 redux= reducer + flux
 
 redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更为妥当)。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
@@ -1011,75 +997,71 @@ redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更�
 
 >react-redux 是一个模块（或者说是一个库：一个将 redux 模式跟 react.js相结合的一个库）（也可以认为是 redux 在 react.js 中的体现）
 
-
-### 使用步骤：
-1. 安装
-```shell
-npm install --save react-redux
-```
-2. 在项目根目录下创建store文件夹，并在其内创建reducer.js，index.jS
+# 如何进一步优化使用：react-redux
+## 将抽离 action.types，将 action 的生成放到一个独立的文件中，进一步从页面中剥离出业务。
+1. 在 /store 文件夹中新增 actionTypes.js，actionCreators.js
    
-![](http://pic.zhuliang.ltd/1101407-20180926160444487-702449478.png)
+   ![1ad8708a-76f0-43d4-ba98-ff1e6a19643f.png](http://pic.zhuliang.ltd/1ad8708a-76f0-43d4-ba98-ff1e6a19643f.png)
 
-/store/reducer.js
-```javascript
-import {fromJS} from 'immutable';
+   actionTypes.js
+    ```javascript
+    export const REVERSE_COLOR = "DUWU/REVERSE_COLOR"
+    ```
+    actionCreators.js
+    ```javascript
+    import { REVERSE_COLOR } from './actionTypes';
 
-const defaultState = {
-    showHeader:true,
-    showFooter:true
-}
-
-export default (state = defaultState, action)=>{
-    return state;
-}
-```
-
-/store/index.js
-```javascript
-import { createStore, compose } from 'redux';
-import reducer from './reducer';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, composeEnhancers());
-export default store;
-```
-
-3. 在入口文件中引入 Provider组件，作为顶层App的分发点，在相关的页面组件中使用connect进行组件跟redux的store进行连接。
-/index.js
-```javascript
-import { Provider } from 'react-redux';
-import store from './store/index.js';
-const container = (
-    <Provider store={store}>
-        <Wrapper><App /></Wrapper>
-    </Provider>
-)
-ReactDOM.render(container, document.getElementById('root'));
-```
-components/自定义组件/index.js
-```javascript
-import {connect} from 'react-redux';
-...
-class Header extends Component {
-    render() {
-        ...
+    export const GetReverseColorAction = ()=>{
+        return {
+            type:REVERSE_COLOR
+        }
     }
-}
-...
-export default connect(null,null)(Header);
-```
+    ```
+2. 调整原 reducer.js 和 /pages/duwu/index.js代码
+   
+    /store/reducer.js
+    ```javascript
+    import {REVERSE_COLOR} from './actionTypes';
+    const defaultState = {
+        title: {
+            text: "here is duwu title",
+            color: "red"
+        },
+        content: {
+            text: "here is duwu content",
+            color: "blue"
+        }
+    }
 
-# 重构Header，将store放到组件自身内部中
-## 操作步骤：
-1. 在Header组件文件夹中，创建store文件夹，并在其内创建 index.js，reducer.js，actionCreators.js，actionTypes.js等
-2. 调整根目录/store/reducer.js
-```javascript
-import { combineReducers } from 'redux';
-import { reducer as headerReducer } from '../components/header/store';
-export default combineReducers({
-    header: headerReducer
-});
-```
+    export default (state = defaultState, action) => {
+        switch (action.type) {
+            case REVERSE_COLOR: //统一从actionTypes中获取
+                {
+                    let currentTitle = state.title;
+                    let currentContent = state.content;
+                    return {
+                        title: {
+                            ...currentTitle,
+                            color: currentContent.color
+                        },
+                        content: {
+                            ...currentContent,
+                            color: currentTitle.color
+                        }
+                    }
 
-# 搜索页面
+                }
+            default:
+                return state;
+        }
+    }   
+    ```
+    /pages/duwu/index.js
+    ```javascript
+    import { REVERSE_COLOR } from './actionTypes';
+
+    export const GetReverseColorAction = {
+        type:REVERSE_COLOR
+    }
+    ```
+
