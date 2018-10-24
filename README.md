@@ -468,7 +468,6 @@ function checkStatus (response) {
  **/
 // function checkCode (res) {
 //   // 如果状态码正常就直接返回数据
-//   console.log(res)
 //   if (res.code === -404) { // 这里包括网络异常，服务器异常等这种异常跟业务无关，直接弹窗警告
 //     alert(res.message)
 //     return {code: '', message: '网络错误'}
@@ -952,7 +951,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         reverseColor() {
-            console.log(111)
             let action = {
                 type: "reverseColor",
             }
@@ -1172,7 +1170,8 @@ const mapStateToProps = (state) => {
 
 ## 统一格式，让在页面中使用 state.duwu 也是一个 immutable对象
 - 通过使用 redux-immutable来实现。
-
+- redux-immutable 的作用是？
+    - 创建一个 redux combineReducers 的等效函数，以便能够跟 immutable.js的state 协同工作
 - 安装：
     ```javascript
     npm install redux-immutable
@@ -1201,5 +1200,87 @@ const mapStateToProps = (state) => {
     ```
 
 ## 使用 redux-thunk：进一步从页面中抽离业务方法
+> 使用 /pages/index 页面来做演示
+> - 默认情况下， 在actionCreators，只能够返回对象，而不能返回方法（dispatch的入参至支持对象）
+> - 但引入 redux-thunk 之后，dispatch的入参就可以是一个方法。
+> - 何为redux-thunk？
+>   - 它是 redux 的一个中间件，用以支持
+### 使用 redux-thunk 改写 index 页
+- 安装：
+    ```javascript
+    npm install --save redux-thunk
+    ```
+- 调整 /store/index.js，引入该中间件
+    ```javascript
+    import { createStore,applyMiddleware } from 'redux';//引入 applyMiddleware
+    import reducer from './reducer';
+    import thunk from 'redux-thunk';
+
+    //创建store的时候，将中间件thunk作为参数传入
+    const store = createStore(reducer,applyMiddleware(thunk))
+
+    export default store;
+    ```
+- 调整 /pages/index 文件内容及目录，新增 store 文件夹，如下：
+  
+    ![81d9a1de-a2ce-48c0-ba99-251b7649c09c.png](http://pic.zhuliang.ltd/81d9a1de-a2ce-48c0-ba99-251b7649c09c.png)
+
+- /pages/index/index.js
+    ```javascript
+    import React, { PureComponent } from 'react'
+    import { setWindowScrollToSession, autoWindowScroll } from '../../common/utility';
+    import { connect } from 'react-redux'; //引入 connect 模块
+    import { InitIndex } from './store/actionCreators'; //引入InitIndex 方法
+    class Index extends PureComponent {
+        render() {
+            return <div dangerouslySetInnerHTML={{ __html: this.props.content }}></div>
+        }
+
+        componentDidMount() {
+            this.props.initPage(this.props.location.pathname);
+        }
+        componentWillUnmount() {
+            setWindowScrollToSession(this.props.location.pathname);
+        }
+    }
+
+    const mapStateToProps = (state) => {
+        return {
+            content: state.getIn(["index", "content"])
+        }
+    }
+
+    const mapDispatchToProps = (dispatch) => {
+        return {
+            initPage(pathname) {
+                dispatch(InitIndex()); //dispatch中使用的是方法，而非对象
+                autoWindowScroll(pathname);
+            }
+        }
+    }
+
+    export default connect(mapStateToProps, mapDispatchToProps)(Index);
+    ```
+- /pages/index/store/actionCreators.js
+    ```javascript
+    import { GET_INDEX_TEMPLATE } from './actionTypes';
+    import http from '../../../service/api';
+
+    const GetInitIndexAction = (content) => {
+        return {
+            type: GET_INDEX_TEMPLATE,
+            data: content
+        };
+    }
+
+    export const InitIndex = () => {
+        return (dispatch) => {
+            http.get("/api/feature.json").then((result) => {
+                let action = GetInitIndexAction(result.data);
+                dispatch(action);
+            });
+        }
+    }
+    ```
 
 ## chrome插件：redux的安装和配置及使用

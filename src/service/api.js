@@ -46,7 +46,6 @@ function checkStatus (response) {
  **/
 // function checkCode (res) {
 //   // 如果状态码正常就直接返回数据
-//   console.log(res)
 //   if (res.code === -404) { // 这里包括网络异常，服务器异常等这种异常跟业务无关，直接弹窗警告
 //     alert(res.message)
 //     return {code: '', message: '网络错误'}

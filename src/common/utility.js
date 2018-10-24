@@ -37,7 +37,6 @@ export const getPagedData = (dataList, pageSize, pageNo) => {
     if (!dataList || dataList.length === 0 || pageNo < 1 || pageSize <= 0) return null;
 
     if (ImmutableList.isList(dataList)) {
-        console.log("immutable list");
         return dataList.skip((pageNo - 1) * pageSize).take(pageSize);
     }
     //以下为js和immutable object 通用部分
