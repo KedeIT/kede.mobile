@@ -9,6 +9,6 @@ export const OrderTitle = styled.div`
     width:100%;
 `
 
-export const OrderItem = styled.div`
+export const OrderItemWrapper = styled.div`
     color:${props=>props.color};
 `
