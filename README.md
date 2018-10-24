@@ -1065,18 +1065,65 @@ redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更�
     }
     ```
 
-## 进一步抽离store文件夹到每一个独立的pages页面中
-
-## 使用 immutable.js
+## immutable.js
 为什么要用immutable.js？
 - 在reducer.js中，无法对state直接做修改，只能返回一个新的对象用来更新state，如果是基于原始state的修改，那么只能对他进行深拷贝后进行修改，再进行返回。
 - 通过使用 immutable.js，就可以省略深拷贝这一步，因为任何对于 immutable对象的修改，最终都会返回一个新的immutable对象。
 ### 使用 immutable
 安装：
-```javascript
 
+```javascript
+npm install immutable
 ```
 
+在reducer.js中引入 immutable，将原先的state对象转换为immutable类型
+
+```javascript
+import { REVERSE_COLOR } from './actionTypes';
+import { fromJS } from 'immutable'; //引入 immutable的 fromJS 模块
+//fromJS()：将一个map对象转换成 immutable 对象
+const defaultState = fromJS({
+    title: {
+        text: "here is duwu title",
+        color: "red"
+    },
+    content: {
+        text: "here is duwu content",
+        color: "blue"
+    }
+})
+
+export default (state = defaultState, action) => {
+    switch (action.type) {
+        case REVERSE_COLOR:
+            {
+                //使用getIn()以层级的关系获取数据
+                let currentTitleColor = state.getIn(["title","color"]);
+                let currentContentColor = state.getIn(["content","color"]);
+                //使用setIn()以层级的方式来设置属性
+                return state
+                        .setIn(["title","color"],currentContentColor)
+                        .setIn(["content","color"],currentTitleColor)
+            }
+        default:
+            return state;
+    }
+}
+```
+
+调整使用的地方：/pages/duwu/index.js
+
+```javascript
+const mapStateToProps = (state) => {
+    return {
+        //使用get来获取属性，使用 toJS()将immutable对象转换成js对象
+        title: state.get("title").toJS(),
+        content: state.get("content").toJS()
+    }
+}
+```
+
+## 进一步抽离store文件夹到每一个独立的pages页面中
 
 
 ## chrome插件：redux的安装和配置及使用

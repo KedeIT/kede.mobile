@@ -49,8 +49,9 @@ class Duwu extends PureComponent {
 
 const mapStateToProps = (state) => {
     return {
-        title: state.title,
-        content: state.content
+        //使用get来获取属性，使用 toJS()将immutable对象转换成js对象
+        title: state.get("title").toJS(),
+        content: state.get("content").toJS()
     }
 }
 
@@ -58,7 +59,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         reverseColor() {
             let action = GetReverseColorAction();
-            console.log(action);
             dispatch(action);
         }
     }
