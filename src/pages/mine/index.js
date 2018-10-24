@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import OrderList from './components/OrderList';
+import { connect } from 'react-redux';
+import { toggleColor } from './store/actionCreators';
 
-import OrderItemContext, { style } from '../../context/orderItemContext';
 class Mine extends Component {
 
     constructor(props) {
@@ -21,7 +22,6 @@ class Mine extends Component {
                     price: 43
                 }
             ],
-            currentColor: style.colorRed
         }
     }
 
@@ -30,29 +30,18 @@ class Mine extends Component {
             <div style={{ height: "600px", margin: "50% auto" }}>
                 <div>Mine page</div>
 
-                <OrderItemContext.Provider 
-                value={{
-                    currentColor:this.state.currentColor,
-                    toggleColor:this.toggleColor
-                    }}>
-                    <OrderList orderList={this.state.orderList} ></OrderList>
-                </OrderItemContext.Provider>
-                <button onClick={() => this.toggleColor()}>toggleColor</button>
+                <OrderList orderList={this.state.orderList} ></OrderList>
+                <button onClick={() => this.props.toggleColor()}>toggleColor</button>
             </div>);
     }
-
-    toggleColor = () => {
-        if (this.state.currentColor === style.colorRed) {
-            this.setState({
-                currentColor: style.colorBlue
-            });
-        } else {
-            this.setState(() => ({
-                currentColor: style.colorRed
-            }));
-        }
-    }
-
 }
 
-export default Mine;
+const mapDispatch = (dispatch) => {
+    return {
+        toggleColor() {
+            dispatch(toggleColor());
+        }
+    }
+}
+
+export default connect(null, mapDispatch)(Mine);
