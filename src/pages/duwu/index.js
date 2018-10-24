@@ -49,9 +49,11 @@ class Duwu extends PureComponent {
 
 const mapStateToProps = (state) => {
     return {
-        //使用get来获取属性，使用 toJS()将immutable对象转换成js对象
-        title: state.duwu.get("title").toJS(),
-        content: state.duwu.get("content").toJS()
+        // title: state.duwu.get("title").toJS(),
+        // content: state.duwu.get("content").toJS()
+        //调整后，duwu也是一个immutable对象了，获取值的方式需做调整，如下
+        title: state.getIn(["duwu","title"]).toJS(),
+        content: state.getIn(["duwu","content"]).toJS()
     }
 }
 

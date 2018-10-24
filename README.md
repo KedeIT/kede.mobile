@@ -1141,7 +1141,7 @@ const mapStateToProps = (state) => {
     ```javascript
     import reducer from './reducer';
     import * as actionCreators from './actionCreators';
-    import * as actionCreators from './actionTypes';
+    import * as actionTypes from './actionTypes';
 
     export { reducer, actionCreators, actionTypes};
     ```
@@ -1170,8 +1170,35 @@ const mapStateToProps = (state) => {
     }
     ```
 
+## 统一格式，让在页面中使用 state.duwu 也是一个 immutable对象
+- 通过使用 redux-immutable来实现。
 
+- 安装：
+    ```javascript
+    npm install redux-immutable
+    ```
 
+- 调整 /store/reducer.js
+    ```javascript
+    import { combineReducers } from 'redux-immutable'; //原先从 redux 模块获取改成从 redux-immutable获取
+    import { reducer as duwuReducer } from '../pages/duwu/store';
+
+    export default combineReducers({
+        duwu: duwuReducer
+    });
+    ```
+- 调整 /pages/duwu/index.jS
+    ```javascript
+    const mapStateToProps = (state) => {
+        return {
+            // title: state.duwu.get("title").toJS(),
+            // content: state.duwu.get("content").toJS()
+            //调整后，duwu也是一个immutable对象了，获取值的方式需做调整，如下
+            title: state.getIn(["duwu","title"]).toJS(),
+            content: state.getIn(["duwu","content"]).toJS()
+        }
+    }
+    ```
 
 ## 使用 redux-thunk：进一步从页面中抽离业务方法
 
