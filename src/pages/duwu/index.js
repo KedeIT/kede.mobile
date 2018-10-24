@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {GetReverseColorAction} from '../../store/actionCreators';
+import {GetReverseColorAction} from './store/actionCreators';
 class Duwu extends PureComponent {
     // state = {
     //     title: {
@@ -50,8 +50,8 @@ class Duwu extends PureComponent {
 const mapStateToProps = (state) => {
     return {
         //使用get来获取属性，使用 toJS()将immutable对象转换成js对象
-        title: state.get("title").toJS(),
-        content: state.get("content").toJS()
+        title: state.duwu.get("title").toJS(),
+        content: state.duwu.get("content").toJS()
     }
 }
 

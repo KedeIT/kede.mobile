@@ -1124,6 +1124,55 @@ const mapStateToProps = (state) => {
 ```
 
 ## 进一步抽离store文件夹到每一个独立的pages页面中
+### 调整项目结构
+- 在 /pages/duwu 文件夹中新建 store 文件夹
+- 将原 /store 目录下的 actionCreators.js，actionTypes.js 移动至 /pages/duwu/store中
+- 将原 /store 目录下的 reducer.js 复制一份到 /pages/duwu/store 中
+- 在 /pages/duwu/store 中新建一个 index.js
+  
+**调整后的最终目录结构为：**
+    
+![14a2224c-a26e-44a7-bf2b-ff85e1c5fe05.png](http://pic.zhuliang.ltd/14a2224c-a26e-44a7-bf2b-ff85e1c5fe05.png)
 
+其中:
+- /pages/duwu/store 文件夹中的 actionCreators.js，actionTypes.js，reducer.js 代码保持不变。
+
+- /pages/duwu/store/index.js：仅作为对外暴露的入口
+    ```javascript
+    import reducer from './reducer';
+    import * as actionCreators from './actionCreators';
+    import * as actionCreators from './actionTypes';
+
+    export { reducer, actionCreators, actionTypes};
+    ```
+- /store/index.js：保持不变
+- /store/reducer.js：引入 combineReducers 模块 来连接不同页面、组件的 store
+    ```javascript
+    import { combineReducers } from 'redux';
+    import { reducer as duwuReducer } from '../pages/duwu/store';
+
+    export default combineReducers({
+        duwu: duwuReducer  // "标记A"
+    });
+    ```
+- /pages/duwu/index：调整原先获取数据的地方
+    ```javascript
+    /*
+        注意：原先是直接 state.get() 来获取数据
+        使用 combineReducers 之后，state的结构有所变化，需要加上在 /store/reducer.js 中定义 key，如在上面(/sotre/reducer.js)标识的"标记A" 处的 key值
+    */
+    const mapStateToProps = (state) => {
+        return {
+            //获取值的时候，需要加上 duwu 这个 js 对象，之后在 duwu 这个对象上来进行数据的获取。
+            title: state.duwu.get("title").toJS(),
+            content: state.duwu.get("content").toJS()
+        }
+    }
+    ```
+
+
+
+
+## 使用 redux-thunk：进一步从页面中抽离业务方法
 
 ## chrome插件：redux的安装和配置及使用
