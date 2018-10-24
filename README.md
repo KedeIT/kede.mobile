@@ -1284,3 +1284,49 @@ const mapStateToProps = (state) => {
     ```
 
 ## chrome插件：redux的安装和配置及使用
+在 /store/index.js中增加对 redux-devtools 的支持
+> 参考： https://github.com/zalmoxisus/redux-devtools-extension#usage
+在使用了中间件的情况下，使用以下代码：
+```javascript
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(...middleware),
+  // other store enhancers if any
+);
+const store = createStore(reducer, enhancer);
+```
+
+最终调整后的 /store/index.js的代码为：
+```javascript
+import { createStore,applyMiddleware,compose } from 'redux';
+import reducer from './reducer';
+import thunk from 'redux-thunk';
+
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk),
+);
+
+const store = createStore(reducer,enhancer)
+
+export default store;
+```
+
+加入支持前：
+
+![20faf66c-8d1c-40ec-8bc7-76b0bc6e92bb.png](http://pic.zhuliang.ltd/20faf66c-8d1c-40ec-8bc7-76b0bc6e92bb.png)
+
+加入支持后：
+
+![2b6652be-2f08-4737-b209-5adc4bcaf35e.png](http://pic.zhuliang.ltd/2b6652be-2f08-4737-b209-5adc4bcaf35e.png)
