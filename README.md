@@ -615,11 +615,11 @@ export const autoWindowScroll = (path) => {
 
 
 # 组件之间的数据传递：
-一般情况下，组件之间的数据传递是通过 props 进行，那么如果现在有子组件A被嵌套很深，但该子组件A的一些父组件可能并不会用到子组件A所需要的一些属性，但是因为嵌套了子组件A，他们不得不对外索要这些子组件所需要的属性，如下：
+一般情况下，组件之间的数据传递是通过 props 进行，那么如果现在有 OrderItem 被嵌套很深，但该子组件 OrderItem 的一些父组件可能并不会用到OrderItem所需要的一些属性，但是因为嵌套了子组件 OrderItem，就不得不对外索要这些子组件所需要的属性，如下：
 
-![b864d260-bbf6-a4cd-009c-07701cc6951f.png](http://pic.zhuliang.ltd/b864d260-bbf6-a4cd-009c-07701cc6951f.png)
+![20c3ae3e-e513-48d9-93c9-36df02ede3bc.png](http://pic.zhuliang.ltd/20c3ae3e-e513-48d9-93c9-36df02ede3bc.png)
 
-在上图中，假设子组件A需要用到App.js中state中的某个属性值A，那么这个时候，虽然Tool.js，Head.js都用不到属性值A，但他们必须分别对父级提供props.A 属性，以此来将A属性传递给子组件A。
+在上图中，假设子组件 OrderItem 需要用到index.js中state中的某个属性值A，那么这个时候，虽然 OrderList.js 用不到属性值A，但它必须分别对父级提供 props.A 属性，以此来将A属性传递给子组件 OrderItem。
 
 那么有没有什么办法可以简化这个操作？通过：context。
 
