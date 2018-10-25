@@ -632,6 +632,24 @@ export const autoWindowScroll = (path) => {
 index.js
 ```javascript
 	import OrderList from './components/OrderList';
+	
+    this.state = {
+        orderList: [
+            {
+                title: "博士伦隐形眼镜",
+                price: 23
+            },
+            {
+                title: "海昌隐形眼镜",
+                price: 33
+            },
+            {
+                title: "依视路镜片",
+                price: 43
+            }
+        ],
+        currentColor: style.colorRed
+    }	
     render() {
         return (
             <div style={{ height: "600px", margin: "50% auto" }}>
@@ -800,7 +818,7 @@ export default (props) => {
     - 创建上下文：let MyContext = React.createContext([defaultValue])
         - 它有一个默认值，关于这个默认值，仅在Consumer往上查找，找不到Provider的时候才会触发（而非Provider组件的value属性为null/undefined时触发）
     - 提供数据：通过使用MyContext.Provider来限定上下文的范围，通过 value属性来传递值。
-    - 获取/使用苏剧：通过使用MyContext.Consumer来限定上下文使用的范围，在写法上需要注意下，children部分以代码段开始。
+    - 获取/使用数据：通过使用MyContext.Consumer来限定上下文使用的范围，在写法上需要注意下，children部分以代码段开始。
     - 更多关于上下文见此：https://reactjs.org/docs/context.html
 
 ## 使用 react-redux 来传递数据
