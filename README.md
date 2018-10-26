@@ -982,6 +982,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(Duwu);
 
 
 # redux 
+## redux 简介：
+- redux 是一个应用架构。其设计理念：所有的数据放在 store 里管理，一个组件改变了store中的内容，其他组件就会感知到store的这个变化，从而直接从store中获取数据来进行更新。
+- redux = reducer + flux
+
+### 什么是flux？
+- facebook 用于构建客户端Web应用程序的一个应用架构，利用单向数据流来补充 react 的可组合视图组件。与其说是一个架构，不如说是一个模式。
+  
+### flux 工作流：
+![939114dc-0d18-4a7e-a88b-ee6b96c461ae.png](http://pic.zhuliang.ltd/939114dc-0d18-4a7e-a88b-ee6b96c461ae.png)
+
+### redux 工作流：
+![](http://pic.zhuliang.ltd/1101407-20180925141104597-2088633436.png)
+
+- Redux 的灵感来源于 Flux 的几个重要特性。和 Flux 一样，Redux 规定，**模型的更新逻辑全部集中于一个特定的层（Flux 里的 store，Redux 里的 reducer）**。
+- Redux 和 Flux 都不允许程序直接修改数据，而是用一个叫作 “action” 的**普通对象**来对更改进行描述。
+
+
 
 ## 为什么要用redux？
 react的数据传递是单向的：
@@ -989,7 +1006,6 @@ react的数据传递是单向的：
 ![](http://pic.zhuliang.ltd/14a288ea-7104-4afb-b3dd-53832a3d753f.gif)
 
 >通过props属性进行数据的传递
-
 
 非父子组件之间共享 state
 
@@ -1000,13 +1016,7 @@ react的数据传递是单向的：
 
 ![](http://pic.zhuliang.ltd/fa9a3b6a-31be-4011-a87a-fb11a19b979f.gif)
 
-## redux 简介：
-redux= reducer + flux
 
-redux是一个数据层框架(跟flux一样，可能看成是一个"模式"更为妥当)。其设计理念：所有的数据放在 store 里管理,一个组件改变了store中的内容,其他组件就会感知到store的这个变化,从而直接从store中获取数据来进行更新。
-
-## redux 工作流：
-![](http://pic.zhuliang.ltd/1101407-20180925141104597-2088633436.png)
 
 ## 使用 react-redux来简化
 项目地址：https://github.com/reduxjs/react-redux
@@ -1113,6 +1123,29 @@ export default (state = defaultState, action) => {
     switch (action.type) {
         case REVERSE_COLOR:
             {
+                /* 方式一：直接返回新对象 */
+                // let currentTitle = state.title;
+                // let currentContent = state.content;
+                // return {
+                //     title: {
+                //         ...currentTitle,
+                //         color: currentContent.color
+                //     },
+                //     content: {
+                //         ...currentContent,
+                //         color: currentTitle.color
+                //     }
+                // }
+
+                /* 方式二：使用深拷贝 */
+                // let currentTitleColor = state.title.color;
+                // let currentContentColor = state.content.color;
+                // let deepCopyInfo = JSON.parse(JSON.stringify(state));
+                // deepCopyInfo.title.color=currentContentColor;
+                // deepCopyInfo.content.color=currentTitleColor;
+                // return deepCopyInfo;
+
+                /* 方式三：使用immutable对象 */
                 //使用getIn()以层级的关系获取数据
                 let currentTitleColor = state.getIn(["title","color"]);
                 let currentContentColor = state.getIn(["content","color"]);
@@ -1120,6 +1153,11 @@ export default (state = defaultState, action) => {
                 return state
                         .setIn(["title","color"],currentContentColor)
                         .setIn(["content","color"],currentTitleColor)
+
+                /* DO NOT DO THIS：不能直接修改state */
+                // console.log(state);
+                // state.title.color = currentContent.color;
+                // return state;
             }
         default:
             return state;
@@ -1138,6 +1176,8 @@ const mapStateToProps = (state) => {
     }
 }
 ```
+
+更多关于immutable.js：https://github.com/facebook/immutable-js
 
 ## 进一步抽离store文件夹到每一个独立的pages页面中
 ### 调整项目结构
@@ -1222,7 +1262,7 @@ const mapStateToProps = (state) => {
 > - 默认情况下， 在actionCreators，只能够返回对象，而不能返回方法（dispatch的入参至支持对象）
 > - 但引入 redux-thunk 之后，dispatch的入参就可以是一个方法。
 > - 何为redux-thunk？
->   - 它是 redux 的一个中间件，用以支持
+>   - 它是 redux 的一个中间件，用以支持dispatch的参数是一个方法。
 ### 使用 redux-thunk 改写 index 页
 - 安装：
     ```javascript
@@ -1304,7 +1344,9 @@ const mapStateToProps = (state) => {
 ## chrome插件：redux的安装和配置及使用
 在 /store/index.js中增加对 redux-devtools 的支持
 > 参考： https://github.com/zalmoxisus/redux-devtools-extension#usage
+
 在使用了中间件的情况下，使用以下代码：
+
 ```javascript
 const composeEnhancers =
   typeof window === 'object' &&
@@ -1321,6 +1363,7 @@ const store = createStore(reducer, enhancer);
 ```
 
 最终调整后的 /store/index.js的代码为：
+
 ```javascript
 import { createStore,applyMiddleware,compose } from 'redux';
 import reducer from './reducer';
