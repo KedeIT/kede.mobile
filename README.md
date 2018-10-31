@@ -27,7 +27,10 @@ create-react-app kede.mobile
 >官网地址：https://www.styled-components.com/
 
 ## 使用 styled-components 全局注入 normalize.css
-### 安装 styled-components(编写本文档时，对应使用的版本号为3.4.9)： 
+### 安装 styled-components：
+- 编写本文档时，对应使用的版本号为3.4.9
+- 目前最新的v4版本已经弃用 injectGlobal，改用createGlobalStyle，具体见此： https://www.styled-components.com/docs/api#createglobalstyle
+
 ```javascript
 npm install --save styled-components@3.4.9
 ```
