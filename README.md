@@ -81,7 +81,7 @@ ReactDOM.render(container, document.getElementById('root'));
 - index.js：用于页面布局。
 - style.js：页面样式，使用"styled-components"模块进行布局处理。
 
-/components/header/index.js
+/components/header/style.js
 
 ```javascript
 import styled from 'styled-components';
@@ -163,7 +163,7 @@ export const SearchInput = styled.input.attrs({
     outline:none;
 `
 ```
-/components/header/style.js
+/components/header/index.js
 
 ``` javascript
 import React, { PureComponent } from 'react'
@@ -198,7 +198,7 @@ export default Header;
 - index.js：用于页面布局
 - style.js：页面样式，使用"styled-components"模块进行布局处理。
 
-/components/footer/index.js
+/components/footer/style.js
 ```javascript
 import styled from 'styled-components';
 import footerIcon from '../../assets/img/footer_nav.png'
