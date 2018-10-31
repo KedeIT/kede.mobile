@@ -349,7 +349,8 @@ export default Footer;
 ```
 - 使用fontClass
 ![](http://pic.zhuliang.ltd/1101407-20180928175857212-868804250.png)
-组件中司用：
+
+组件中使用：
 ```javascript
 导入：import{CartIcon} from './assets/icon/iconfont.js'
 使用：<CartIcon></CartIcon>
