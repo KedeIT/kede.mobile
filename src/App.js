@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import Header from './components/header';
-import Footer from './components/footer';
+// import Header from './components/header';
+// import Footer from './components/footer';
+import {Header, Footer} from 'demo-react-ui';
 import PageRoute from './pages/root.js';
 
 class App extends Component {

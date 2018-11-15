@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-import GoToTop from '../../components/goToTop';
+// import GoToTop from '../../components/goToTop';
+import {GoToTop} from 'demo-react-ui';
 class Cart extends PureComponent{
     render(){
         return (
