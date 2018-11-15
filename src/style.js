@@ -1,6 +1,6 @@
-import styled, {injectGlobal} from 'styled-components';
+import styled, {createGlobalStyle} from 'styled-components';
 
-injectGlobal`
+export const GlobalStyle = createGlobalStyle`
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
     line-height:1.15;
