@@ -1,6 +1,6 @@
 # 概述：
-- 本次培训内容基于 kede.mobile 项目，版本：[tag/v1.0](https://github.com/KedeIT/kede.mobile/tree/tag/v1.0)
-- 本次培训内容最终会合并至kede.mobile的master分支，并且打标为：[tag/v2.0](https://github.com/KedeIT/kede.mobile/tree/tag/v2.0)
+- 本次培训内容基于 kede.mobile 项目，版本：[tag/v1.0](https://github.com/KedeIT/kede.mobile/tree/v1.0)
+- 本次培训内容最终会合并至kede.mobile的master分支，并且打标为：[tag/v2.0](https://github.com/KedeIT/kede.mobile/tree/v2.0)
 - kede.mobile项目：git tag版本说明：
     - v1.0：kede.mobile培训内容，components组件库包含在项目中
     - v2.0：kede.mobile培训内容，components组件库作为独立的package存在，kede.mobile安装该组件库
